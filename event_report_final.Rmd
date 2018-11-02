@@ -1,0 +1,83 @@
+---
+title: "2018 Census Report"
+output: pdf_document
+---
+```{r setup, echo=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+```
+
+## 1.0 Census Overview
+
+### 1.1 Census Description
+
+The YNCN census is an initiative to assess students' professional development skills and identify their pain points in the job finding process. These insights will then be integrated into our event planning process and marketing strategy to ensure that our offerings are beneficial for students, and directly address their areas of need.
+
+When: September 12th - September 28th
+
+### 1.3 Target Population
+
+The target population for the census was undergradutae students at the university of Toronto, studying Engineering, Commerce, Computer Science, or any other type of quantitive discipline (i.e. Math).
+
+### 1.2 Project Goals
+
+The following goals were set prior to the census so the success of this project could be evaluated.
+
+\begin{enumerate}
+  \item Collect data from 200-300 undergraduate students. 
+  \item Of the engineering data collected, have at least 5 respondents from every discipline and every year to ensure representaive data.
+  \item Gather actionable insights from the data collected. 
+  \item Host a teach-in on survey results and how they can help improve YNCN this year.
+\end{enumerate}
+
+
+## 2.0 Marketing Strategy and Branding Overview
+
+### 2.1 Marketing Strategy
+ 
+Marketing strategy was a critical success factor for this project. The number of responses collected was entirely dependant on the work of YNCN team memebers to distribute the census. We used the following marketing strategies for this event. 
+
+Insert something about the internal competition
+ 
+\begin{enumerate}
+  \item Response recruitment in the pit
+  \begin{itemize}
+    \item stuff about the pit
+    \item more stuff about the pit
+  \end{itemize}
+  \item Facebook
+  \begin{itemize}
+    \item stuff about facebook
+    \item more stuff about facebook
+  \end{itemize}
+  \item In-class marketing
+  \begin{itemize}
+    \item stuff about emailing professors
+    \item stuff about bit.ly links
+  \end{itemize}
+  \item Census handout cards 
+  \item Other relevant channels:
+  \begin{itemize}
+    \item First year office newsletter
+    \item APS100 tutorials
+    \item ESP
+  \end{itemize}
+\end{enumerate}
+
+### 2.2 Graphics Branding
+For this event we made 4x4 handouts that included a short description of the census, a QR code & bit.ly link to the census. These cards were handed out when marketing the census at the beginning of lectures.
+
+![Census Flyer](YNCN_census_flyer_4x4.pdf)
+
+
+## 3.0 Results
+
+### 3.1 Response Demographics
+
+
+
+### 3.2 Insights
+Challenge! Finish this doc (remember to add in all our cool ass graphs + some analysis)
+```{r echo=FALSE}
+
+```
