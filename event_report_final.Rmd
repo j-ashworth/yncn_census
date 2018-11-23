@@ -4,20 +4,20 @@ output: pdf_document
 ---
 ```{r setup, echo=FALSE, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-
+source('demographic_analysis.R')
 ```
 
 ## 1.0 Census Overview
 
 ### 1.1 Census Description
 
-The YNCN census is an initiative to assess students' professional development skills and identify their pain points in the job finding process. These insights will then be integrated into our event planning process and marketing strategy to ensure that our offerings are beneficial for students, and directly address their areas of need.
+The YNCN census is an initiative to assess students' professional development skills and identify their pain points in the job finding process. Our goals is to integrate these insights into our event planning process and marketing strategy to ensure that our offerings are beneficial for students, and directly address their areas of need.
 
 When: September 12th - September 28th
 
 ### 1.3 Target Population
 
-The target population for the census was undergradutae students at the university of Toronto, studying Engineering, Commerce, Computer Science, or any other type of quantitive discipline (i.e. Math).
+The target population for the census was undergraduate students at the University of Toronto, studying Engineering, Commerce, Computer Science, or any other type of quantitive discipline (i.e. Math).
 
 ### 1.2 Project Goals
 
@@ -35,49 +35,67 @@ The following goals were set prior to the census so the success of this project 
 
 ### 2.1 Marketing Strategy
  
-Marketing strategy was a critical success factor for this project. The number of responses collected was entirely dependant on the work of YNCN team memebers to distribute the census. We used the following marketing strategies for this event. 
+Marketing strategy was a critical success factor for this project. The number of responses collected was entirely dependant on the work of YNCN team members to distribute the census. We used the following marketing strategies for this event. 
 
 Insert something about the internal competition
  
 \begin{enumerate}
   \item Response recruitment in the pit
   \begin{itemize}
-    \item stuff about the pit
-    \item more stuff about the pit
+    \item Volunteers set up the yncn banner and a few laptops/tablets at the table at the front of the pit between 11am and 1pm and asked students walking by to fill out the census
+    \item This strategy was a great way to get face-to-face interaction with students, increase our brand awareness, and collect a lot of responses
   \end{itemize}
   \item Facebook
   \begin{itemize}
-    \item stuff about facebook
-    \item more stuff about facebook
+    \item The census was posted in all of the major engineering and discipline groups
   \end{itemize}
   \item In-class marketing
   \begin{itemize}
-    \item stuff about emailing professors
-    \item stuff about bit.ly links
+    \item We reached out to professors teaching courses that focused on professional development/the workplace asking to give a short presentation to students at the beginning of one of their lectures and/or send the census to students on quercus. 
+    \item We handed out census info cards (see section 2.2) to students at the beginning of lecture and talked briefly about the goal of the census and how it could help students. For the last two lectures we ran our of info cards and just wrote a bit.ly link to the census on the chalkboard.
   \end{itemize}
-  \item Census handout cards 
-  \item Other relevant channels:
+  \item First Year Office:
   \begin{itemize}
-    \item First year office newsletter
-    \item APS100 tutorials
-    \item ESP
+    \item We reached out to the first year office and they included a blurb about the census in the first year newsletter, and put the census as a talking point on APS 100 TA's syllabus
+    \item Our marketing team also had two APS 100 TAs that offered their students food incentives to fill out the census, which was widely successfull.
   \end{itemize}
 \end{enumerate}
 
 ### 2.2 Graphics Branding
-For this event we made 4x4 handouts that included a short description of the census, a QR code & bit.ly link to the census. These cards were handed out when marketing the census at the beginning of lectures.
+For this event we made 4x4 handouts that included a short description of the census, a QR code & bit.ly link to the census. These cards were handed out when talking to students about the census at the beginning of lectures.
 
-![Census Flyer](YNCN_census_flyer_4x4.pdf)
 
 
 ## 3.0 Results
 
 ### 3.1 Response Demographics
+One of our goals was to get atleast 5 students from every engineering discipline in each year. While we did not reach this goal, we were close! Below is a breakdown of the responses by discipline and year. See appendix A for a breakdown of responses from each discipline. 
 
 
-
-### 3.2 Insights
-Challenge! Finish this doc (remember to add in all our cool ass graphs + some analysis)
-```{r echo=FALSE}
-
+```{r echo=FALSE, fig.height=3, fig.width=3}
+count_per_year
+count_per_disc
 ```
+
+Our data was primarily composed of first, second, and third year students. In terms of determining student's biggest pain-points in the job-finding process, these are arguably the most important students to gather data from as they will have the least amount of work experience, thus benefiting the most from our professional development offerings. 
+
+The highest represented discilpines were computer engineering, electrical engineering, engineering science, industrial engineering and mechanical engineering. Comparing these proportions to the UofT engineering demographic, these results are expected, with the exception of chemical engineering students who were under represented in our data.
+
+### 3.2 Paint Points
+
+
+### 3.3 Career Interests
+
+
+### 3.4 Marketing Channels
+Our last question in the census asked students about how they hear about YNCN events. As expected, Facebook accounted for the majority of responses, with ___% of respondents reporting they hear about YNCN events through Facebook. 
+
+###Appendices
+
+#Appendix A
+
+
+
+
+
+
