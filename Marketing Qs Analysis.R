@@ -19,8 +19,6 @@ marketing_data$clubs.fair <- str_detect(temp1, 'Clubs Fair')
 marketing_data$instagram <- str_detect(temp1, 'Instagram')
 
 
-marketing_data
-
 summary(marketing_data)
 results <- t(data.frame(as.list(colSums(marketing_data[-1,-1]))))
 

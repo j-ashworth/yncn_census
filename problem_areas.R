@@ -18,12 +18,24 @@ census_data$year <- as.factor(census_data$year)
 
 ratings <- census_data[c(1,2,14,15,16,17,18,19)]
 
+
+
 #overall average problem counts
 ratings_disciplines_all <- melt(ratings[-2], id.vars = 'program')
 ratings_average <- ratings_disciplines_all %>% group_by(variable) %>% summarise(av = mean(value))
-average_ratings_graph <- ggplot(ratings_average, aes(variable, av)) + 
-  geom_bar(aes(fill=variable), stat = "identity") + 
+ratings_average$av <- as.numeric(format(ratings_average$av, digits = 2))
+
+average_ratings_graph_lolly <- ggplot(ratings_average, aes(variable, av)) + 
   ylim(0,5) +
+  geom_segment(aes(x=variable,xend = variable, y=0, yend = av), color="skyblue") +
+  geom_point(color="blue", size=10)  + 
+  geom_text(aes(label=av, y=av), vjust=.35, size=3, color="white")+
+  theme_light() +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.border = element_blank(),
+    axis.ticks.y = element_blank()
+  ) +
   labs(title = "Average Ratings of Job Application Competencies", x = 'Ratings', y = 'Average Response') +
   theme(plot.title = element_text(hjust = 0.5)) +
   scale_x_discrete(labels= c('Resume', 'Cover Letter', 'Networking', 'Behavioural Interview', 'Technical Interview', 'Business Case')) +

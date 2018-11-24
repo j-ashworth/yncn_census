@@ -33,7 +33,7 @@ data.m <- melt(plot_df[-7], id.vars = 'discipline')
 
 #total count per year
 count_per_year_df <- data.m %>% group_by(variable) %>% summarise(total = sum(value)) 
-count_per_year <- ggplot(count_per_year_df, aes(variable, total)) + 
+count_per_year_graph <- ggplot(count_per_year_df, aes(variable, total)) + 
   geom_bar(stat = "identity", fill = "#369A97") +
   labs(title = 'Number of Responses by Year', x = 'Year', y = 'Number of Responses') + 
   theme(plot.title = element_text(hjust = 0.5)) +
@@ -54,10 +54,14 @@ count_per_disc <- ggplot(count_per_disc_df, aes(discipline, total)) +
 #facet plot - breakdown by discipline by year, non-engineering disciplines omitted
 #eng_data <- filter(data.m, discipline != 'Arts', discipline != 'Commerce', discipline != 'Science/Math')
 eng_data <- filter(data.m, discipline != 'Track One')
-eng_data$variable <- factor(eng_data$variable, levels=rev(levels(eng_data$variable)))
-facet_disc_year <- ggplot(eng_data, aes(x=variable, y=value, fill=variable, label=variable)) + 
+names(eng_data) <- c("Discipline", "Year", "Responses")
+#eng_data$Year <- factor(eng_data$Year, levels=rev(levels(eng_data$Year)))
+facet_disc_year <- ggplot(eng_data, aes(x=Year, y= Responses, fill=Year, label=Year)) + 
   geom_bar(stat="identity") +
-  facet_wrap(~discipline, ncol =3) + 
-  geom_text(aes(label = value), vjust = -0.5, size = 2)
-  
+  facet_wrap(~Discipline, ncol =3) + 
+  geom_text(aes(label = Responses), vjust = -0.5, size = 2) +
+  ylim(0,35) +
+  labs(title = 'Number of Responses Per Discipline Per Year') +
+  theme(plot.title = element_text(hjust = 0.5)) 
+
 
