@@ -3,6 +3,9 @@ library(dplyr)
 library(ggplot2)
 library(reshape2)
 library(tidyr)
+library(directlabels)
+  library(grid)
+
 
 #select desired data
 census_data <- census_data_raw[2:22]
@@ -48,17 +51,41 @@ average_ratings_graph_lolly <- ggplot(ratings_average, aes(variable, av)) +
 #average problem counts per discipline
 ratings_discipline <- melt(filter(ratings[-2], program != 'Arts' & program != 'Commerce' & program != 'Science/Math'), id.vars = 'program')
 ratings_average_per_displine <- ratings_discipline %>% group_by(program, variable) %>% summarise(av = mean(value))
+ratings_average_per_displine$av <- as.numeric(format(ratings_average_per_displine$av, digits = 2))
+
 ratings_average_facet <- ggplot(ratings_average_per_displine, aes(variable, av)) + 
-  geom_bar(aes(fill=variable), stat = "identity") + 
-  facet_wrap( ~ program, ncol=5) + xlab('Ratings') + 
   ylim(0,5) +
-  labs(title = "Average Ratings of Job Application Competencies", x = 'Ratings', y = 'Average Response') +
+  geom_segment(aes(x=variable,xend = variable, y=0, yend = av), color="skyblue") +
+  geom_point(color="blue", size=10)  + 
+  geom_text(aes(label=av, y=av), vjust=.35, size=3, color="white")+
+  theme_light() +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.border = element_blank(),
+    axis.ticks.y = element_blank()
+  ) +
+  facet_wrap( ~ program, ncol=2) + xlab('Ratings') + 
+  labs(title = "Average Ratings of Job Application Competencies", x = 'Area', y = 'Average Competency Rating') +
   theme(plot.title = element_text(hjust = 0.5)) +
   scale_x_discrete(labels= c('Resume', 'Cover Letter', 'Networking', 'Behavioural Interview', 'Technical Interview', 'Business Case')) +
-  theme(legend.position="none") +
-  scale_x_discrete(labels = function(labels) {
-    sapply(seq_along(labels), function(i) paste0(ifelse(i %% 2 != 0, '', '\n'), labels[i]))
-  })
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+test <- ratings_average_per_displine
+levels(test$program)<- c("Arts", "Chem", "Civ", "Comm", "CE", "EE", "EngSci", "Indy", "MSE", "Mech", "Min", "Sci/Math", "T1")
+layered_data <- data.frame(filter(test, program != 'Min' & program != 'T1'))
+
+layered_facet_line <- ggplot(layered_data, aes(x=variable, y = av, group = program, colour = program)) + 
+  geom_line() + 
+  geom_point() +
+  theme_light() +
+  scale_x_discrete(labels= c('Resume', 'Cover Letter', 'Networking', 'Behavioural\nInterview', 'Technical\nInterview', 'Business\nCase'))+
+  labs(title = "Average Ratings of Job Application Competencies by Discipline", x = 'Area', y = 'Average Competency Rating') +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_dl(aes(label = program), method = list(dl.trans(x = x + .3), "last.bumpup", cex = 0.8)) +
+  geom_dl(aes(label = program), method = list(dl.trans(x = x - .3), "first.bumpup", cex = 0.8)) +
+  theme(legend.position="none") 
+
+
 
 
 
@@ -88,16 +115,18 @@ geom_bar(aes(fill=variable), stat = "identity") +
   })
 
 #total
+
 pp_total <- ggplot(count_per_year, aes(variable, sum)) +
-  geom_bar(aes(fill=variable), stat = "identity") + 
-  labs(title = "Biggest Pain Points in Job-Finding Process per Year", x = 'Pain Point', y = 'Number of Responses') +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  scale_x_discrete(labels= c('Interviews', 'Cover Letter', 'Networking', 'Behavioural Interview', 'Technical Interview', 'Business Case')) +
-  theme(legend.position="none") +
+  geom_bar(stat = "identity", fill = "#369A97") + 
+  scale_x_discrete(labels= c('Interviews', 'Resume', 'Cover Letter', 'Networking')) +
+  labs(title = "Biggest Pain Points in Job-Finding Process", x = 'Area', y = 'Number of Responses') +
+  theme(legend.position="none", plot.title = element_text(hjust = 0.5)) +
+  theme_light() +
   scale_x_discrete(labels = function(labels) {
     sapply(seq_along(labels), function(i) paste0(ifelse(i %% 2 != 0, '', '\n'), labels[i]))
   })
-#finding - biggest pain point is interviews
+
+#finding -biggest pain point is interviews
 #average rating between behavioural, technical, and business case interviews
 average_interview_rating <- mean(ratings_average$av[c(4, 5, 6)]) # equal to 2.85452
 #this is also the lowest rated compentency
