@@ -31,21 +31,19 @@ ratings_average$av <- as.numeric(format(ratings_average$av, digits = 2))
 average_ratings_graph_lolly <- ggplot(ratings_average, aes(variable, av)) + 
   ylim(0,5) +
   geom_segment(aes(x=variable,xend = variable, y=0, yend = av), color="skyblue") +
-  geom_point(color="blue", size=10)  + 
+  geom_point(color="navyblue", size=10)  + 
   geom_text(aes(label=av, y=av), vjust=.35, size=3, color="white")+
-  theme_light() +
-  theme(
-    panel.grid.major.y = element_blank(),
-    panel.border = element_blank(),
-    axis.ticks.y = element_blank()
-  ) +
-  labs(title = "Average Ratings of Job Application Competencies", x = 'Ratings', y = 'Average Response') +
+  theme(plot.title = element_text(size=10, hjust = 0.5), axis.text = element_text(size = 8)) +
+  theme_hc()+ 
+  scale_colour_hc() +
+  labs(title = "Average Ratings of Job Application Competencies", x = element_blank(), y = element_blank()) +
   theme(plot.title = element_text(hjust = 0.5)) +
-  scale_x_discrete(labels= c('Resume', 'Cover Letter', 'Networking', 'Behavioural Interview', 'Technical Interview', 'Business Case')) +
-  theme(legend.position="none") +
-  scale_x_discrete(labels = function(labels) {
-    sapply(seq_along(labels), function(i) paste0(ifelse(i %% 2 != 0, '', '\n'), labels[i]))
-  })
+  scale_x_discrete(labels= c('Resume', 'Cover\nLetter', 'Networking', 'Behavioural\nInterview', 'Technical\nInterview', 'Business\nCase')) +
+  theme(legend.position="none") 
+
+#scale_x_discrete(labels = function(labels) {
+#  sapply(seq_along(labels), function(i) paste0(ifelse(i %% 2 != 0, '', '\n'), labels[i]))
+#})
 
 
 #average problem counts per discipline
@@ -77,15 +75,15 @@ layered_data <- data.frame(filter(test, program != 'Min' & program != 'T1'))
 layered_facet_line <- ggplot(layered_data, aes(x=variable, y = av, group = program, colour = program)) + 
   geom_line() + 
   geom_point() +
-  theme_light() +
+  theme(plot.title = element_text(size=10, hjust = 0.5), axis.text = element_text(size = 8), legend.title = element_blank()) +
+  theme_hc()+ 
+  scale_colour_hc() +
+  ylim(0,5) +
   scale_x_discrete(labels= c('Resume', 'Cover Letter', 'Networking', 'Behavioural\nInterview', 'Technical\nInterview', 'Business\nCase'))+
-  labs(title = "Average Ratings of Job Application Competencies by Discipline", x = 'Area', y = 'Average Competency Rating') +
+  labs(title = "Average Ratings of Job Application Competencies by Discipline", x = element_blank(), y = element_blank()) +
   theme(plot.title = element_text(hjust = 0.5)) +
   geom_dl(aes(label = program), method = list(dl.trans(x = x + .3), "last.bumpup", cex = 0.8)) +
-  geom_dl(aes(label = program), method = list(dl.trans(x = x - .3), "first.bumpup", cex = 0.8)) +
-  theme(legend.position="none") 
-
-
+  geom_dl(aes(label = program), method = list(dl.trans(x = x - .3), "first.bumpup", cex = 0.8)) 
 
 
 
@@ -117,14 +115,14 @@ geom_bar(aes(fill=variable), stat = "identity") +
 #total
 
 pp_total <- ggplot(count_per_year, aes(variable, sum)) +
-  geom_bar(stat = "identity", fill = "#369A97") + 
+  geom_bar(stat = "identity", fill = "#369A97", width = 0.6) + 
+  theme(plot.title = element_text(size=10, hjust = 0.5), axis.text = element_text(size = 8), legend.title = element_blank(), axis.title.y = element_text(size = 10)) +
+  theme_hc()+ 
+  scale_colour_hc() +
   scale_x_discrete(labels= c('Interviews', 'Resume', 'Cover Letter', 'Networking')) +
-  labs(title = "Biggest Pain Points in Job-Finding Process", x = 'Area', y = 'Number of Responses') +
-  theme(legend.position="none", plot.title = element_text(hjust = 0.5)) +
-  theme_light() +
-  scale_x_discrete(labels = function(labels) {
-    sapply(seq_along(labels), function(i) paste0(ifelse(i %% 2 != 0, '', '\n'), labels[i]))
-  })
+  labs(title = "Biggest Pain Points in Job-Finding Process", x = element_blank(), y = 'Number of Responses') +
+  theme(legend.position="none")
+
 
 #finding -biggest pain point is interviews
 #average rating between behavioural, technical, and business case interviews

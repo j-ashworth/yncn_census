@@ -1,7 +1,8 @@
 library(readr)
 library(dplyr)
 library(ggplot2)
-library(reshape2)
+library(reshape2) 
+library(ggthemes) 
 
 #select relevant demographic columns
 census <- read.csv('census_data.csv')
@@ -34,22 +35,27 @@ data.m <- melt(plot_df[-7], id.vars = 'discipline')
 #total count per year
 count_per_year_df <- data.m %>% group_by(variable) %>% summarise(total = sum(value)) 
 count_per_year_graph <- ggplot(count_per_year_df, aes(variable, total)) + 
-  geom_bar(stat = "identity", fill = "#369A97") +
-  labs(title = 'Number of Responses by Year', x = 'Year', y = 'Number of Responses') + 
-  theme(plot.title = element_text(hjust = 0.5)) +
-  theme(legend.position="none") +
-  geom_text(aes(label = total), vjust = -0.5)
+  geom_bar(stat = "identity", fill = "#369A97", width = 0.6) +
+  theme(plot.title = element_text(size=10, hjust = 0.5), axis.text = element_text(size = 8)) +
+  theme_hc()+ 
+  scale_colour_hc() +
+  labs(title = 'Number of Responses Per Year', x = element_blank(), y = element_blank()) + 
+  scale_x_discrete(labels=c("First", "Second", "Third","PEY", "Fourth"))
+
+
 
 #total count per discipline
 count_per_disc_df <- plot_df[,c(1,7)]
 count_per_disc <- ggplot(count_per_disc_df, aes(discipline, total)) + 
-  geom_bar(stat = "identity", fill = "#369A97") +
-  labs(title = 'Number of Responses by Discipline', x = 'Discipline', y = 'Number of Responses') + 
-  scale_x_discrete(labels=c("Arts", "Chem", "Civ", "Comm", "CE", "EE", "EngSci", "Indy", "MSE", "Mech", "Min", "A&S", "T1")) +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
   theme(legend.position="none") +
-  geom_text(aes(label = total), vjust = -0.5)
+  theme(plot.title = element_text(size=10, hjust = 0.5), axis.text = element_text(size = 8)) +
+  theme_hc()+ 
+  scale_colour_hc() +
+  geom_bar(stat = "identity", fill = "#369A97") +
+  labs(title = 'Number of Responses Per Discipline', x = element_blank(), y = element_blank()) + 
+  scale_x_discrete(labels=c("Arts", "Chem", "Civ", "Comm", "CE", "EE", "EngSci", "Indy", "MSE", "Mech", "Min", "A&S", "T1"))
+
+
 
 #facet plot - breakdown by discipline by year, non-engineering disciplines omitted
 #eng_data <- filter(data.m, discipline != 'Arts', discipline != 'Commerce', discipline != 'Science/Math')
@@ -61,6 +67,7 @@ facet_disc_year <- ggplot(eng_data, aes(x=Year, y= Responses, fill=Year, label=Y
   facet_wrap(~Discipline, ncol =3) + 
   geom_text(aes(label = Responses), vjust = -0.5, size = 2) +
   ylim(0,35) +
+  theme_light() +
   labs(title = 'Number of Responses Per Discipline Per Year') +
   theme(plot.title = element_text(hjust = 0.5)) 
 

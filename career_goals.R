@@ -4,6 +4,7 @@ library(ggplot2)
 library(directlabels)
 library(reshape2)
 library(magrittr)
+library(ggthemes)
 
 census_data_raw <- read_csv("census_data.csv")
 
@@ -52,27 +53,36 @@ census_data1$consulting.general <- str_detect(temp, '[Cc]onsulting')
 industry_data <- data.frame(census_data1[c(1,2,27,28,29,30,31,32,33,34,35,36,37)])
 industry_data_discipline <- melt(industry_data[-2], id.vars = 'program')
 industry_count_per_disc <- industry_data_discipline %>% group_by(program, variable) %>% summarise(sum = sum(value)) %>% mutate(freq = sum / sum(sum))
+filtered<-filter(industry_count_per_disc[-4], program != 'Arts' & program != 'Commerce' & program != 'Science/Math' & variable != 'management.consulting' & variable != 'tech.consulting' & variable != 'eng.consulting')
 
 #by program facet bar
-industry_plot_by_program <- ggplot(filter(industry_count_per_disc[-4], program !='Mineral Engineering'& program != 'Arts' & program != 'Commerce' & program != 'Track One' & variable != 'management.consulting' & variable != 'tech.consulting' & variable != 'eng.consulting'), aes(variable, sum)) +
-  geom_bar(aes(fill=variable), stat = "identity") + 
-  facet_wrap( ~program, ncol=3) +
+industry_plot_by_program <- ggplot(filtered, aes(x=variable, y=sum)) +
+  geom_bar(aes(fill=variable), stat = "identity")+
+  facet_wrap( ~program, ncol=2) +
+  theme(plot.title = element_text(size=10, hjust = 0.5), axis.text = element_text(size = 8), legend.title = element_blank(), axis.title.y = element_text(size = 10)) +
+  theme_hc()+ 
+  scale_colour_hc() +
   labs(title = "Industry Interests", x = 'Industry', y = 'Number of Interested Respondants') +
   theme(plot.title = element_text(hjust = 0.5)) +
-  scale_x_discrete(labels= c('Aerospace', 'Biomed/Pharma', 'Energy', 'Consulting', 'Finance', 'Hardware', 'Manufacturing', 'Software')) +
-  theme(legend.position="none") +
-  scale_x_discrete(labels = function(labels) {
-    sapply(seq_along(labels), function(i) paste0(ifelse(i %% 2 != 0, '', '\n'), labels[i]))
-  })
+  scale_x_discrete(labels= c('Aero', 'Biomed/\nPharma', 'Energy', 'Finance', 'Hard-\nware', 'Manufac-\nturing', 'Soft-\nware', 'Consulting'))+
+  geom_text(aes(label = sum), vjust = -0.5, size = 2) +
+  theme(legend.position="none")
+  
+
+
 
 #by program line proportion
-industry_disc_line_prop <- ggplot(filter(industry_count_per_disc[-3], program !='Mineral Engineering'& program != 'Arts' & program != 'Commerce' &program != 'Track One' & variable != 'management.consulting' & variable != 'tech.consulting' & variable != 'eng.consulting'), aes(x=variable, y = freq, group = program, colour = program)) + 
+levels(industry_count_per_disc$program)<- c("Arts", "Chem", "Civ", "Comm", "CE", "EE", "EngSci", "Indy", "MSE", "Mech", "Min", "Sci/Math", "T1")
+
+industry_disc_line_prop <- ggplot(filter(industry_count_per_disc[-3], program !='Min'& program != 'Arts' & program != 'Comm' &program != 'T1'  &program != 'Sci/Math' & variable != 'management.consulting' & variable != 'tech.consulting' & variable != 'eng.consulting'), aes(x=variable, y = freq, group = program, colour = program)) + 
   geom_line() + 
   geom_point() +
-  theme_light() +
-  labs(title = "Industry Interests Per Discipline", x = 'Industry', y = 'Proportion Interested') +
+  theme(plot.title = element_text(size=10, hjust = 0.5), axis.text = element_text(size = 8), legend.title = element_blank(), axis.title.y = element_text(size = 10)) +
+  theme_hc()+ 
+  scale_colour_hc() +
+  labs(title = "Industry Interests Per Discipline", x = element_blank(), y = 'Proportion Interested') +
+  scale_x_discrete(labels= c('Aerospace', 'Biomed/\nPharma', 'Energy', 'Finance', 'Hardware', 'Manufacturing', 'Software', 'Consulting')) +
   theme(plot.title = element_text(hjust = 0.5)) +
-  theme(legend.position="none") +
   geom_dl(aes(label = program), method = list(dl.trans(x = x + .3), "last.bumpup", cex = 0.8)) +
   geom_dl(aes(label = program), method = list(dl.trans(x = x - .3), "first.bumpup", cex = 0.8)) 
 
@@ -80,16 +90,14 @@ industry_disc_line_prop <- ggplot(filter(industry_count_per_disc[-3], program !=
 # overall bar
 industry_count_total <- industry_data_discipline %>% group_by(variable) %>% summarise(sum = sum(value))  
 
-industry_plot_overall <- ggplot(industry_count_total, aes(variable, sum)) +
-  geom_bar(aes(fill=variable), stat = "identity") + 
-  labs(title = "Industry Interests", x = 'Industry', y = 'Number of Interested Respondants') +
-  scale_x_discrete(labels= c('Aerospace', 'Biomed/Pharma', 'Energy', 'Consulting', 'Finance', 'Hardware', 'Manufacturing', 'Software')) +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  theme(legend.position="none") +
-  geom_text(aes(label = sum), vjust = -0.5) +
-  scale_x_discrete(labels = function(labels) {
-    sapply(seq_along(labels), function(i) paste0(ifelse(i %% 2 != 0, '', '\n'), labels[i]))
-  })
+industry_plot_overall <- ggplot(filter(industry_count_total, variable != 'consulting.general'), aes(variable, sum)) +
+  geom_bar(fill = "#369A97", stat = "identity") + 
+  theme(plot.title = element_text(size=10, hjust = 0.5), axis.text = element_text(size = 8), legend.title = element_blank(), axis.title.y = element_text(size = 10)) +
+  theme_hc()+ 
+  scale_colour_hc() +
+  labs(title = "Overall Work Industry Interest", x = element_blank(), y = element_blank()) +
+  scale_x_discrete(labels= c('Aerospace', 'Biomed/Pharma', 'Energy', 'Management\nConsulting', 'Tech\nConsulting','Eng\nConsulting','Finance','Hardware', 'Manufac-\nturing', 'Software')) +
+  theme(legend.position="none")
 
 #################Type of work###################
 
@@ -118,13 +126,14 @@ work_type_discipline_plot <- ggplot(filter(work_type_discipline[-4], variable !=
 #layered line proportion
 levels(work_type_discipline$program)<- c("Arts", "Chem", "Civ", "Comm", "CE", "EE", "EngSci", "Indy", "MSE", "Mech", "Min", "Sci/Math", "T1")
 
-work_type_disc_line_prop <- ggplot(filter(work_type_discipline[-3], program !='Min'& program != 'Arts' & program != 'T1'), aes(x=variable, y = freq, group = program, colour = program)) + 
+work_type_disc_line_prop <- ggplot(filter(work_type_discipline[-3], program !='Min'& program != 'Arts' & program != 'T1'& program != 'Comm' & program != 'Sci/Math'), aes(x=variable, y = freq, group = program, colour = program)) + 
   geom_line() + 
   geom_point() +
-  theme_light() +
-  labs(title = "Post-Grad Work Interests", x = 'Type of Work', y = 'Relative Proportion Interested Respondants') +
+  theme(plot.title = element_text(size=10, hjust = 0.5), axis.text = element_text(size = 8), legend.title = element_blank(), axis.title.y = element_text(size = 10)) +
+  theme_hc()+ 
+  scale_colour_hc() +
+  labs(title = "Post-Grad Work Interests Per Discipline", x = element_blank(), y = 'Relative Proportion Interested Respondants') +
   theme(plot.title = element_text(hjust = 0.5)) +
-  theme(legend.position="none") +
   scale_x_discrete(labels= c('Full Time\nCorporate', 'Full Time\nStartup', 'Research', 'Grad School', 'Entrepreneurship')) +
   geom_dl(aes(label = program), method = list(dl.trans(x = x + .3), "last.bumpup", cex = 0.8)) +
   geom_dl(aes(label = program), method = list(dl.trans(x = x - .3), "first.bumpup", cex = 0.8)) 
@@ -160,32 +169,53 @@ work_type_year_line <- ggplot(work_type_year[-4], aes(x=variable, y = sum, group
 work_type_year_line_prop <- ggplot(work_type_year[-3], aes(x=variable, y = freq, group = year, colour = year)) + 
   geom_line() + 
   geom_point() +
-  theme_light() +
-  labs(title = "Post-Grad Work Interests", x = 'Type of Work', y = 'Relative Proportion Interested Respondants') +
-  theme(plot.title = element_text(hjust = 0.5)) +
-  theme(legend.position="none") +
+  theme(plot.title = element_text(size=10, hjust = 0.5), axis.text = element_text(size = 8), legend.title = element_blank(), axis.title.y = element_text(size = 10)) +
+  theme_hc()+ 
+  scale_colour_hc() +
+  labs(title = "Post-Grad Work Interests Per Year", x = element_blank(), y = 'Relative Proportion Interested Respondants') +
   scale_x_discrete(labels= c('Full Time\nCorporate', 'Full Time\nStartup', 'Research', 'Grad School', 'Entrepreneurship')) +
   geom_dl(aes(label = year), method = list(dl.trans(x = x + .3), "last.bumpup", cex = 0.8)) +
   geom_dl(aes(label = year), method = list(dl.trans(x = x - .3), "first.bumpup", cex = 0.8)) 
 
+
+
 #overall plot
 work_type_total_plot <- ggplot(work_type_total, aes(variable, sum)) +
-  geom_bar(aes(fill=variable), stat = "identity") + 
-  theme_light() +
-  labs(title = "Post-Grad Work Interests", x = 'Type of Work', y = 'Number of Interested Respondants') +
-  scale_x_discrete(labels= c('Full Time\nCorporate', 'Full Time\nStartup', 'Research', 'Grad School', 'Entrepreneurship')) +
-  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_bar(stat = "identity", fill = "#369A97", width = 0.5) +
+  theme(plot.title = element_text(size=10, hjust = 0.5), axis.text = element_text(size = 8)) +
+  theme_hc()+ 
+  scale_colour_hc() +
+  labs(title = "Post-Grad Work Interests", x = element_blank(), y = element_blank()) +
+  scale_x_discrete(labels= c('Full Time\nCorporate', 'Full Time\nStartup', 'Research', 'Grad\nSchool', 'Entrepreneurship')) +
+  theme(plot.title = element_text(hjust = 0.5), text = element_text(size=9)) +
   theme(legend.position="none") +
-  scale_x_discrete(labels = function(labels) {
-    sapply(seq_along(labels), function(i) paste0(ifelse(i %% 2 != 0, '', '\n'), labels[i]))
-  })
+  geom_text(stat = 'sum', aes(label=sum, y=sum), size=3, color="white", vjust=1.5)
+
+############ EXPOSURE ###########
 
 exposure_data <- data.frame(census_data1[c(1,2,5,6,7,8,9)])
 exposure_data <-filter(exposure_data, year != '1st')
 exposure_data_discipline <- melt(exposure_data[-2], id.vars = 'program')
 exposure_data_discipline$value <- sapply(exposure_data_discipline$value, as.numeric)
 exposure_av_per_disc <- exposure_data_discipline %>% group_by(program, variable) %>% summarise(mean = mean(value)) 
+exposure_av_overall <- exposure_data_discipline %>% group_by(variable) %>% summarise(mean = mean(value)) 
 levels(exposure_av_per_disc$program)<- c("Arts", "Chem", "Civ", "Comm", "CE", "EE", "EngSci", "Indy", "MSE", "Mech", "Min", "Sci/Math", "T1")
+
+exposure_av_overall$count <- work_type_total$sum
+exposure_av_overall$mean <- as.numeric(format(exposure_av_overall$mean, digits = 2))
+
+#overall plot
+work_type_total_plot_exp <- ggplot(exposure_av_overall) +
+  theme(plot.title = element_text(size=10, hjust = 0.5), axis.text = element_text(size = 8), axis.text.y = element_blank(), panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), panel.background = element_blank(), axis.ticks.y = element_blank()) +
+  labs(title = "Post-Grad Work Interests & Exposure", x = element_blank(), y = element_blank()) +
+  geom_bar(aes(x=variable, y=count), stat = "identity", fill = "#369A97", width = 0.5) +
+  geom_line(aes(x=variable, y=mean*100, group=1)) +
+  geom_point(aes(x=variable, y=mean*100)) +
+  geom_text(aes(label = count, x=variable, y=count), colour="black", vjust = -1, size = 3)+
+  geom_text(aes(label = mean, x=variable, y=mean*100), colour="black", stat='identity', size = 3, vjust = 2)+
+  scale_x_discrete(labels= c('Full Time\nCorporate', 'Full Time\nStartup', 'Research', 'Grad\nSchool', 'Entrepreneurship')) +
+  scale_y_continuous(sec.axis = sec_axis(~./100))
 
 exposure_year_line_prop <- ggplot(filter(exposure_av_per_disc, program != 'Arts' & program != 'Commerce' & program != 'Science/Math' & program != 'Mineral Engineering'), aes(x=variable, y = mean, group = program, colour = program)) + 
   geom_line() + 

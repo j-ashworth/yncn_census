@@ -26,10 +26,11 @@ marketing_data_overall <- marketing_data %>% group_by(variable) %>% summarise(su
 #over all marketing data
 
 marketing_total <- ggplot(marketing_data_overall[-3], aes(x=variable, y = sum1)) + 
-  geom_bar(aes(fill=variable), stat="identity") +
-  theme_light() +
-  labs(title = "", x = 'Marketing Channel', y = 'Number Responded') +
-  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_bar(fill = "#369A97", stat="identity") +
+  theme(plot.title = element_text(size=10, hjust = 0.5), axis.text = element_text(size = 8), legend.title = element_blank(), axis.title.y = element_text(size = 10)) +
+  theme_hc()+ 
+  scale_colour_hc() +
+  labs(title = "Marketing Reach", x = element_blank(), y = 'Number Responded') +
   scale_x_discrete(labels = c("Facebook", "Email", "Website", "ECF", "Class\nAnnouncement","Word Of\nMouth", "Faculty Member", "Clubs Fair", "Instagram")) +
   theme(legend.position="none") +
   geom_text(aes(label = sum1), vjust = -0.5)
@@ -40,11 +41,11 @@ marketing_total <- ggplot(marketing_data_overall[-3], aes(x=variable, y = sum1))
 marketing_line_prop <- ggplot(marketing_data_disc, aes(x=variable, y = freq, group = year, colour = year)) + 
   geom_line() + 
   geom_point() +
-  theme_light() +
-  labs(title = "", x = 'Marketing Channel', y = 'Proportion Responded') +
-  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(plot.title = element_text(size=10, hjust = 0.5), axis.text = element_text(size = 8), legend.title = element_blank(), axis.title.y = element_text(size = 10)) +
+  theme_hc()+ 
+  scale_colour_hc() +
+  labs(title = "Marketing Reach By Discipline", x = element_blank(), y = 'Proportion Responded') +
   scale_x_discrete(labels = c("Facebook", "Email", "Website", "ECF", "Class\nAnnouncement","Word Of\nMouth", "Faculty Member", "Clubs Fair", "Instagram")) +
-  theme(legend.position="none") +
   geom_dl(aes(label = year), method = list(dl.trans(x = x + .3), "last.bumpup", cex = 0.8)) +
   geom_dl(aes(label = year), method = list(dl.trans(x = x - .3), "first.bumpup", cex = 0.8)) 
 
