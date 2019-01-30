@@ -18,23 +18,22 @@ source('Marketing Qs Analysis.R')
 
 ## 1.1 Census Description
 
-The YNCN census is an initiative to assess students' professional development skills and identify their pain points in the job finding process. Our goals is to integrate these insights into our event planning process and marketing strategy to ensure that our offerings are beneficial for students, and directly address their areas of need.
+The YNCN census is an initiative to assess students' professional development skills and identify their pain points in the job finding process. Our goal is to integrate these insights into our event planning process and marketing strategy to ensure that our offerings are beneficial for students, and directly address their areas of need.
 
-When: September 12th - September 28th
+When: September 12th 2018 - September 28th 2018
 
 ## 1.3 Target Population
 
-The target population for the census was undergraduate students at the University of Toronto, studying Engineering, Commerce, Computer Science, or any other type of quantitative discipline (i.e. Math).
+The target population for the census was undergraduate students at the University of Toronto, studying Engineering, Commerce, Computer Science, or any other type of quantitative discipline (e.g. Math).
 
 ## 1.2 Project Goals
 
-The following goals were set prior to the census so the success of this project could be evaluated.
+The following goals were set prior to the census so the success of this project could be evaluated:
 
 \begin{enumerate}
   \item Collect data from 200-300 undergraduate students. 
   \item Of the engineering data collected, have at least 5 respondents from every discipline and every year to ensure representative data.
   \item Gather actionable insights from the data collected. 
-  \item Host a teach-in on survey results and how they can help improve YNCN this year.
 \end{enumerate}
 
 
@@ -58,8 +57,8 @@ In addition to the competition, the following marketing strategies were used to 
   \end{itemize}
   \item In-class marketing
   \begin{itemize}
-    \item We reached out to professors teaching courses that focused on professional development/the workplace asking to give a short presentation to students at the beginning of one of their lectures and/or send the census to students on quercus. 
-    \item We handed out census info cards (see section 2.2) to students at the beginning of lecture and talked briefly about the goal of the census and how it could help students. For the last two lectures we ran our of info cards and just wrote a bit.ly link to the census on the chalkboard.
+    \item We reached out to professors teaching courses that focused on professional development and asked to give a short presentation to students at the beginning of one of their lectures and/or send the census to students on Quercus. 
+    \item In lectures, we handed out census info cards (see section 2.2) to students at the beginning of lecture and talked briefly about the goal of the census and how it could help students. 
   \end{itemize}
   \item First Year Office:
   \begin{itemize}
@@ -112,7 +111,7 @@ Some interesting points:
 \begin{itemize}
   \item Students are by far the most interested in full time corporate jobs after graduation. However, this was not proportionally represented in the the exposure rating, which was expected to be much higher than 3.1.
   \item Research had a relatively high exposure (2.7) despite low interest in this type of job.
-  \item Research and Grad school had the same exposure rating despite grade school having twice the number of interested students as research.
+  \item Research and Grad school had the same exposure rating despite grad school having twice the number of interested students as research.
   \item Exposure to entrepreneurship was relatively low compared to the number of interested students.
 \end{itemize}
 
@@ -164,7 +163,7 @@ average_ratings_graph_lolly
 layered_facet_line
 ```
 
-Students are least comfortable completing technical and business case based interviews. Breaking this down by discipline, the trends are similar. Industrial engineering students had the lowest ratings for technical interviews, which may identify and area of opportunity as it's common for industrial engineering students to have to complete a technical interview for an analyst positions (i.e. SQL queries, simple coding questions, etc.). Engineering Science and Computer Engineering students rated their competency for business cases the lowest.
+Students are least comfortable completing technical and business case based interviews. Breaking this down by discipline, the trends are similar. Industrial engineering students had the lowest ratings for technical interviews, which may identify and area of opportunity as it's common for industrial engineering students to have to complete a technical interview for analyst positions (e.g. SQL queries, simple coding questions, etc.). Engineering science and computer engineering students rated their competency for business cases the lowest.
 
 We also asked students to optionally let us know what their biggest pain point in the job finding process was. We had 260 responses. Frequency of the keywords "Interview", "Resume", "Cover Letter", and "Networking" can be seen below. 
 
